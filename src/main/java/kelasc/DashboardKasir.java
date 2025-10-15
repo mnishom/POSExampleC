@@ -4,6 +4,7 @@
  */
 package kelasc;
 
+import java.awt.Color;
 import java.awt.Frame;
 
 /**
@@ -17,6 +18,8 @@ public class DashboardKasir extends javax.swing.JFrame {
      */
     public DashboardKasir() {
         initComponents();
+        
+        getContentPane().setBackground(new Color(22, 158, 113)); 
     }
 
     /**
@@ -28,18 +31,22 @@ public class DashboardKasir extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel2 = new javax.swing.JPanel();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 859, Short.MAX_VALUE)
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 532, Short.MAX_VALUE)
         );
+
+        getContentPane().add(jPanel2, java.awt.BorderLayout.CENTER);
 
         setSize(new java.awt.Dimension(873, 540));
         setLocationRelativeTo(null);
@@ -83,5 +90,6 @@ public class DashboardKasir extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel jPanel2;
     // End of variables declaration//GEN-END:variables
 }

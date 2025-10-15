@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import kelasc.util.Koneksi;
+import kelasc.util.Pegawai;
 
 /**
  *
@@ -187,17 +188,25 @@ public class LoginPage extends javax.swing.JFrame {
                     + "password_hash='"+pwd+"'";
             ResultSet RS = ST.executeQuery(Q);
             int n = 0;
+            Pegawai Pg = new Pegawai();
             while (RS.next()) {                
                 n++;
+                Pg.setId(RS.getInt("id_pegawai"));
+                Pg.setNama(RS.getString("nama_pegawai"));
+                Pg.setJabatan(RS.getString("nama_pegawai"));
+                Pg.setUsername(RS.getString("username"));
+                Pg.setPassword(RS.getString("password_hash"));
             }
             if(n>0){
+               
                 //System.out.println("Akun ditemukan");
                 this.setVisible(false); 
                 
                 //
-                DashboardKasir DS = new DashboardKasir();
-                DS.setVisible(true);
-                DS.setExtendedState(Frame.MAXIMIZED_BOTH); 
+                DashboardAdmin DA = new DashboardAdmin();
+                DA.P = Pg;
+                DA.setVisible(true);
+                DA.setExtendedState(Frame.MAXIMIZED_BOTH); 
             }else {
                 System.err.println("Akun tidak ditemukan");
             }
