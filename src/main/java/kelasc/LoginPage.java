@@ -160,7 +160,7 @@ public class LoginPage extends javax.swing.JFrame {
 //                new LoginPage().setVisible(true);
                 LoginPage LP = new LoginPage();
                 LP.setVisible(true);
-                LP.setExtendedState(Frame.MAXIMIZED_BOTH); 
+                LP.setExtendedState(Frame.MAXIMIZED_BOTH);
             }
         });
     }
@@ -184,35 +184,38 @@ public class LoginPage extends javax.swing.JFrame {
             Statement ST = K.createStatement();
             String Q = "SELECT * FROM pegawai "
                     + "WHERE "
-                    + "username='"+usr+"' AND "
-                    + "password_hash='"+pwd+"'";
+                    + "username='" + usr + "' AND "
+                    + "password_hash='" + pwd + "'";
             ResultSet RS = ST.executeQuery(Q);
             int n = 0;
             Pegawai Pg = new Pegawai();
-            while (RS.next()) {                
+            while (RS.next()) {
                 n++;
                 Pg.setId(RS.getInt("id_pegawai"));
                 Pg.setNama(RS.getString("nama_pegawai"));
-                Pg.setJabatan(RS.getString("nama_pegawai"));
+                Pg.setJabatan(RS.getString("jabatan"));
                 Pg.setUsername(RS.getString("username"));
                 Pg.setPassword(RS.getString("password_hash"));
             }
-            if(n>0){
-               
-                //System.out.println("Akun ditemukan");
-                this.setVisible(false); 
-                
-                //
-                DashboardAdmin DA = new DashboardAdmin();
-                DA.P = Pg;
-                DA.setVisible(true);
-                DA.setExtendedState(Frame.MAXIMIZED_BOTH); 
-            }else {
+            if (n > 0) {
+                if (Pg.getJabatan().equals("ADMIN")) {
+                    this.setVisible(false);
+                    DashboardAdmin DA = new DashboardAdmin();
+                    DA.P = Pg;
+                    DA.setVisible(true);
+                    DA.setExtendedState(Frame.MAXIMIZED_BOTH);
+                }else if(Pg.getJabatan().equals("KASIR")){
+                    //kita redirect ke dashboard kasir
+                }else if(Pg.getJabatan().equals("MANAJER")){
+                    //kita redirect ke dashboard manajer
+                }else {
+                    //opsional
+                }
+            } else {
                 System.err.println("Akun tidak ditemukan");
             }
         } catch (Exception e) {
         }
-        
-        
+
     }
 }

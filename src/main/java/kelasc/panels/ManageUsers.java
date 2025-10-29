@@ -4,19 +4,29 @@
  */
 package kelasc.panels;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import javax.swing.table.DefaultTableModel;
 import kelasc.AddNewUser;
+import kelasc.util.Koneksi;
+import kelasc.util.Pegawai;
 
 /**
  *
  * @author mnish
  */
 public class ManageUsers extends javax.swing.JPanel {
+    
+    Pegawai Px;
 
     /**
      * Creates new form ManageUsers
      */
     public ManageUsers() {
         initComponents();
+        
+        refreshData();
     }
 
     /**
@@ -65,6 +75,11 @@ public class ManageUsers extends javax.swing.JPanel {
         jButton3.setEnabled(false);
 
         jButton4.setText("Refresh");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -102,6 +117,7 @@ public class ManageUsers extends javax.swing.JPanel {
 
         add(jPanel1, java.awt.BorderLayout.PAGE_START);
 
+        jTable1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -110,6 +126,13 @@ public class ManageUsers extends javax.swing.JPanel {
                 "ID", "NAMA", "JABATAN", "USERNAME", "PASSWORD"
             }
         ));
+        jTable1.setRowHeight(30);
+        jTable1.setRowHeight(30);
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         add(jScrollPane1, java.awt.BorderLayout.CENTER);
@@ -119,6 +142,37 @@ public class ManageUsers extends javax.swing.JPanel {
         AddNewUser NU = new AddNewUser(null, true);
         NU.setVisible(true); 
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        int n = jTable1.getSelectedRow();
+        if(n != -1){
+            jButton2.setEnabled(true);
+            jButton3.setEnabled(true);
+            //ekstraksi data
+            Px = new Pegawai();
+            String IDusr = jTable1.getValueAt(n, 0).toString();
+            int ID = Integer.valueOf(IDusr);
+            String nama = jTable1.getValueAt(n, 1).toString();
+            String jabatan = jTable1.getValueAt(n, 2).toString();
+            String username = jTable1.getValueAt(n, 3).toString();
+            String password = jTable1.getValueAt(n, 4).toString();
+            Px.setId(ID);
+            Px.setNama(nama); 
+            Px.setJabatan(jabatan);
+            Px.setUsername(username);
+            Px.setPassword(password);
+            
+            
+        }
+        
+        
+    }//GEN-LAST:event_jTable1MouseClicked
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        jButton2.setEnabled(false);
+        jButton3.setEnabled(false);
+        jTable1.clearSelection();
+    }//GEN-LAST:event_jButton4ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -130,7 +184,33 @@ public class ManageUsers extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private static javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
+
+    public static void refreshData(){
+        try {
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            for (int i = model.getRowCount()-1; i >=0; i--) {
+                model.removeRow(i); 
+            }
+            
+            Connection K = Koneksi.Go();
+            String Q = "SELECT * FROM pegawai";
+            Statement S = K.createStatement();
+            ResultSet R = S.executeQuery(Q);
+            while (R.next()){                
+                int id = R.getInt("id_pegawai");
+                String nama = R.getString("nama_pegawai");
+                String jabatan = R.getString("jabatan");
+                String username = R.getString("username");
+                String password = R.getString("password_hash");
+                Object[] datausers = {id,nama,jabatan,username,password};
+                model.addRow(datausers); 
+            }
+            
+        } catch (Exception e) {
+        }
+    }
+
 }
