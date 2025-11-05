@@ -8,7 +8,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import javax.swing.table.DefaultTableModel;
-import kelasc.AddNewUser;
+import kelasc.dialogs.AddNewUser;
 import kelasc.util.Koneksi;
 import kelasc.util.Pegawai;
 
